@@ -1,17 +1,3 @@
-/**
- * ResourceCard – a document card pinned at a specific position in the iceberg.
- *
- * Props (matching data.json document fields):
- *   pictogramme  {string}  Resolved URL of the category SVG icon
- *   category     {string}  "prix" | "article" | "conference" | "livre" | "podcast" | "recherche"
- *   title        {string}  Document title
- *   left         {number}  Left offset in px (absolute positioning)
- *   top          {number}  Top offset in px
- *   width        {number}  Card width in px  (default 612)
- *   height       {number}  Card height in px (default 187)
- */
-
-// Accent colours match each SVG pictogram's own stroke/fill colour
 const CATEGORY_COLORS = {
   prix: '#ffc800',
   article: '#ff0000',
@@ -30,42 +16,33 @@ export default function ResourceCard({
   width = 612,
   height = 187,
   description = null,
+  cardRef,
 }) {
   const color = CATEGORY_COLORS[category] ?? '#3552ff';
   const label = category.charAt(0).toUpperCase() + category.slice(1);
 
   return (
     <div
-      // className="absolute bg-white rounded-2xl px-6 shadow-sm overflow-hidden "
-      className="class-resource-card"
-      style={{ left, top, width, height }}
+      ref={cardRef}
+      className="class-resource-card group"
+      style={{ left, top, width, height, '--card-accent': color }}
     >
-      {/* Pictogram pinned to top-left */}
+      <div className="class-resource-card__glow" />
+
       <img
         src={pictogramme}
         alt={label}
-        // className="absolute object-contain"
         className="class-pictogramme"
-        // style={{ top: 14, left: 16, width: 44, height: 44 }}
       />
-      {/* Category badge + title — offset right to leave room for the icon */}
-      <div 
-        // className="flex flex-col gap-2 min-w-0 h-full justify-center" 
-        className="class-ressource-contain" 
-        // style={{ paddingLeft: 72 }}
-      >
+
+      <div className="class-ressource-contain">
         <span
-          // className="text-white text-sm font-semibold px-3 py-1 rounded-full w-fit leading-none"
           className="class-category-ressource"
           style={{ backgroundColor: color }}
         >
           {label}
         </span>
-        <h3 
-          // className="m-0 text-gray-900 font-semibold text-xl leading-snug line-clamp-2"
-          className="class-title-ressource"
-
-        >
+        <h3 className="class-title-ressource">
           {title}
         </h3>
         <p className="class-description-ressource">
